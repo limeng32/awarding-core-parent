@@ -17,6 +17,7 @@
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
 		<fastjson.version>1.2.7</fastjson.version>
 		<fileupload.version>1.3.1</fileupload.version>
+		<kaptcha.version>2.3</kaptcha.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -162,8 +163,27 @@
 				<version>${fileupload.version}</version>
 				<scope>runtime</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.google.code.kaptcha</groupId>
+				<artifactId>kaptcha</artifactId>
+				<classifier>jdk15</classifier>
+				<version>${kaptcha.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<repositories>
+		<repository>
+			<id>sonatype-forge</id>
+			<name>Sonatype Forge</name>
+			<url>http://repository.sonatype.org/content/groups/forge/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<name>Awarding core parent</name>
 	<modules>
 		<module>awarding-core-web</module>
