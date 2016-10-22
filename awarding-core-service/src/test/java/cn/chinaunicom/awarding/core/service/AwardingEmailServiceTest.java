@@ -1,0 +1,75 @@
+package cn.chinaunicom.awarding.core.service;
+
+import static org.junit.Assert.assertEquals;
+
+import javax.mail.Message;
+import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.IfProfileValue;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import cn.chinaunicom.awarding.core.exception.AwardingCoreException;
+
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetupTest;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:core-service.xml")
+public class AwardingEmailServiceTest {
+
+	private GreenMail greenMail;
+
+	@Autowired
+	private AwardingEmailService awardingEmailService;
+
+	public static final String sendFrom = "test1@limeng32.com";
+
+	@Before
+	public void startMailServer() {
+		greenMail = new GreenMail(ServerSetupTest.SMTP);
+		greenMail.start();
+	}
+
+	@Test
+	@IfProfileValue(name = "VOLATILE", value = "true")
+	public void testSendMail() throws AwardingCoreException,
+			InterruptedException, MessagingException {
+		String sendTo = "test2@limeng32.com";
+		String subject = "Test Subject";
+		String htmlText = "<h3>Test</h3>";
+		awardingEmailService.sendMail(sendTo, subject, htmlText);
+
+		greenMail.waitForIncomingEmail(2000, 1);
+
+		Message[] msgs = greenMail.getReceivedMessages();
+		assertEquals(1, msgs.length);
+		assertEquals(subject, msgs[0].getSubject());
+		// assertEquals(htmlText, GreenMailUtil.getBody(msgs[0]).trim());
+		assertEquals(sendFrom, (msgs[0].getFrom()[0]).toString());
+		assertEquals(sendTo,
+				(msgs[0].getRecipients(RecipientType.TO)[0]).toString());
+	}
+
+	@Test
+	@IfProfileValue(name = "DEV", value = "true")
+	public void testSendMail2() throws AwardingCoreException,
+			InterruptedException, MessagingException {
+		String sendTo = "limeng32@live.cn";
+		String subject = "Test中文";
+		String htmlText = "<h3>你好，這是一封測試郵件!</h3>";
+		awardingEmailService.sendMail(sendTo, subject, htmlText);
+	}
+
+	@After
+	public void stopMailServer() {
+		greenMail.stop();
+	}
+
+}
