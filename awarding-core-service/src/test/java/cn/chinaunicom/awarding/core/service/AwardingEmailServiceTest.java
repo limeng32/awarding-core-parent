@@ -2,6 +2,9 @@ package cn.chinaunicom.awarding.core.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.mail.Message;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
@@ -28,6 +31,9 @@ public class AwardingEmailServiceTest {
 
 	@Autowired
 	private AwardingEmailService awardingEmailService;
+
+	@Autowired
+	ThirdVelocityEmailService thirdVelocityEmailService;
 
 	public static final String sendFrom = "test1@limeng32.com";
 
@@ -65,6 +71,19 @@ public class AwardingEmailServiceTest {
 		String subject = "Test中文";
 		String htmlText = "<h3>你好，這是一封測試郵件!</h3>";
 		awardingEmailService.sendMail(sendTo, subject, htmlText);
+	}
+
+	@Test
+	@IfProfileValue(name = "DEV", value = "true")
+	public void testSendVelocityMail() throws AwardingCoreException,
+			InterruptedException, MessagingException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("userName", "李萌");
+		model.put("emailAddress", "limeng32@live.cn");
+		thirdVelocityEmailService.sendEmail(model, "欢迎您的加入",
+				"cn/chinaunicom/awarding/core/service/changePassword.vm",
+				new String[] { "limeng32@live.cn" }, new String[] {});
+
 	}
 
 	@After

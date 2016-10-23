@@ -20,6 +20,8 @@
 		<kaptcha.version>2.3</kaptcha.version>
 		<javax.mail.version>1.4.1</javax.mail.version>
 		<greenmail.version>1.3.1b</greenmail.version>
+		<velocity.version>1.7</velocity.version>
+		<velocity-tools.version>2.0</velocity-tools.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -182,6 +184,16 @@
 				<version>${greenmail.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity-tools</artifactId>
+				<version>${velocity-tools.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
@@ -221,6 +233,7 @@
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.properties</include>
+					<include>**/*.vm</include>
 				</includes>
 			</resource>
 		</resources>
@@ -231,6 +244,7 @@
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.properties</include>
+					<include>**/*.vm</include>
 				</includes>
 			</testResource>
 		</testResources>
