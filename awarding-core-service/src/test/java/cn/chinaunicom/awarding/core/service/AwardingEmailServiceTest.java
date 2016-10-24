@@ -78,11 +78,12 @@ public class AwardingEmailServiceTest {
 	public void testSendVelocityMail() throws AwardingCoreException,
 			InterruptedException, MessagingException {
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("userName", "李萌");
-		model.put("emailAddress", "limeng32@live.cn");
-		thirdVelocityEmailService.sendEmail(model, "欢迎您的加入",
+		model.put("systemName", "科技评奖系统");
+		model.put("userName", "曲飚");
+		model.put("changePasswordUrl", "http://limeng32.com");
+		thirdVelocityEmailService.sendEmail(model, "中国联通科技评奖系统",
 				"cn/chinaunicom/awarding/core/service/changePassword.vm",
-				new String[] { "limeng32@live.cn" }, new String[] {});
+				new String[] { "limeng32@live.cn","qubiao1@chinaunicom.cn" }, new String[] {});
 
 	}
 
