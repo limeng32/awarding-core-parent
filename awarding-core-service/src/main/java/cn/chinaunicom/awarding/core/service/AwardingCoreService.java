@@ -90,4 +90,13 @@ public class AwardingCoreService implements InitializingBean {
 		}
 		return text.equals(value);
 	}
+
+	public void clearToken(String token) throws AwardingCoreException {
+		if (tokenMap.get(token) == null) {
+			throw new AwardingCoreException(
+					AwardingCoreExceptionEnum.ConnotFindToken.toString());
+		} else {
+			tokenMap.remove(token);
+		}
+	}
 }
