@@ -30,7 +30,7 @@
 
 	<bean class="cn.chinaunicom.awarding.core.service.AwardingEmailService">
 		<property name="javaMailSender" ref="javaMailSender" />
-		<property name="systemEmail" value="${email.systemEmail}" />
+		<property name="systemEmail" value="${email.username}" />
 	</bean>
 
 	<bean id="velocityEngine"
@@ -41,6 +41,10 @@
 				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
 			</value>
 		</property>
+	</bean>
 
+	<bean id="thirdVelocityEmailService"
+		class="cn.chinaunicom.awarding.core.service.ThirdVelocityEmailService">
+		<property name="systemEmail" value="${email.username}" />
 	</bean>
 </beans>

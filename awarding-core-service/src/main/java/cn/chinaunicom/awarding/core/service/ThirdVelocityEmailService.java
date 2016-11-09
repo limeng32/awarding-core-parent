@@ -23,9 +23,11 @@ public class ThirdVelocityEmailService {
 	@Autowired
 	private VelocityEngine velocityEngine;
 
+	private String systemEmail;
+
 	public void sendEmail(final Map<String, Object> model,
 			final String subject, final String vmfile, final String[] mailTo,
-			final String[] files, final String fromEmail) {
+			final String[] files) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			// 注意MimeMessagePreparator接口只有这一个回调函数
 			public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -34,7 +36,7 @@ public class ThirdVelocityEmailService {
 				// 这是一个生成Mime邮件简单工具，如果不使用GBK这个，中文会出现乱码
 				message.setTo(mailTo);// 设置接收方的email地址
 				message.setSubject(subject);// 设置邮件主题
-				message.setFrom(fromEmail);// 设置发送方地址
+				message.setFrom(systemEmail);// 设置发送方地址
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, vmfile, "utf-8", model);
 				// 从模板中加载要发送的内容，vmfile就是模板文件的名字
@@ -51,6 +53,14 @@ public class ThirdVelocityEmailService {
 		};
 
 		javaMailSender.send(preparator);// 发送邮件
+	}
+
+	public String getSystemEmail() {
+		return systemEmail;
+	}
+
+	public void setSystemEmail(String systemEmail) {
+		this.systemEmail = systemEmail;
 	}
 
 }
