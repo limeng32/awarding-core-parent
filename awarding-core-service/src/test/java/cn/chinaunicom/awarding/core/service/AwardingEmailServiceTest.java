@@ -83,7 +83,8 @@ public class AwardingEmailServiceTest {
 		model.put("changePasswordUrl", "http://limeng32.com");
 		thirdVelocityEmailService.sendEmail(model, "中国联通科技评奖系统",
 				"cn/chinaunicom/awarding/core/service/changePassword.vm",
-				new String[] { "limeng32@live.cn" }, new String[] {});
+				new String[] { "limeng32@live.cn" }, new String[] {},
+				"awardingpost@chinaunicom.cn");
 
 	}
 
